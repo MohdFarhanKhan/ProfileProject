@@ -8,8 +8,6 @@
 
 import UIKit
 protocol NameSharingDelegate: class {
-    // The following command (ie, method) must be obeyed by any
-    // underling (ie, delegate) of the older sibling.
     func getNewName(newName: String)
 }
 class NameTableViewCell: UITableViewCell,UITextFieldDelegate {
@@ -18,10 +16,8 @@ class NameTableViewCell: UITableViewCell,UITextFieldDelegate {
     weak var delegate: NameSharingDelegate?
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
         nameTextField.delegate = self
     }
-   
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
@@ -30,12 +26,10 @@ class NameTableViewCell: UITableViewCell,UITextFieldDelegate {
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         return true
     }
-    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
        nameTextField.resignFirstResponder()
     }
-    
-     func textFieldDidReturn(textField: UITextField!) {
+    func textFieldDidReturn(textField: UITextField!) {
         textField.resignFirstResponder()
     }
     func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {

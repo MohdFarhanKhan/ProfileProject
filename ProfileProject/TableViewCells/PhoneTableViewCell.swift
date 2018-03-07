@@ -8,16 +8,13 @@
 
 import UIKit
 protocol PhoneSharingDelegate: class {
-    // The following command (ie, method) must be obeyed by any
-    // underling (ie, delegate) of the older sibling.
-    func getNewCode(newCode: String)
+     func getNewCode(newCode: String)
     func getNewPhoneNumber(newNumber: String)
 }
 class PhoneTableViewCell: UITableViewCell, UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate {
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
-    
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         return codeCountryArray.count
     }
@@ -28,7 +25,6 @@ class PhoneTableViewCell: UITableViewCell, UIPickerViewDataSource, UIPickerViewD
             keyValueString = "\(key) : \(value)"
         }
         return keyValueString
-        
     }
   
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
@@ -38,11 +34,8 @@ class PhoneTableViewCell: UITableViewCell, UIPickerViewDataSource, UIPickerViewD
             codeString = key
         }
         countryCodeTextField.text = codeString
-        
     }
-    
- 
-    
+
     var countryCode : String?
     var phoneNumber : String?
     var delegate : PhoneSharingDelegate?
@@ -52,17 +45,13 @@ class PhoneTableViewCell: UITableViewCell, UIPickerViewDataSource, UIPickerViewD
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
     }
-
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
        countryCodeTextField.delegate = self
         phoneTextField.delegate = self
         NotificationCenter.default.addObserver(self, selector: #selector(self.showCurrentCountryCode(_:)), name: NSNotification.Name(rawValue: "countryCodeNotification"), object: nil)
-
-        // Configure the view for the selected state
-    }
+   }
     
     @objc func showCurrentCountryCode(_ notification: NSNotification) {
         print(notification.userInfo ?? "")
@@ -75,20 +64,15 @@ class PhoneTableViewCell: UITableViewCell, UIPickerViewDataSource, UIPickerViewD
     }
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         if (codeCountryArray.count<=0){
-        codeCountryArray = CodeManager.sharedInstance.getCodeCountryArray()
+            codeCountryArray = CodeManager.sharedInstance.getCodeCountryArray()
             if codeCountryArray.count<=0{
             return false
             }
         }
-            let pickerView = UIPickerView()
-            
-            pickerView.delegate = self
-            
-            countryCodeTextField.inputView = pickerView
-      
-        
-        
-        return true
+        let pickerView = UIPickerView()
+        pickerView.delegate = self
+        countryCodeTextField.inputView = pickerView
+       return true
     }
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool  {
         if textField != phoneTextField{
@@ -111,11 +95,5 @@ class PhoneTableViewCell: UITableViewCell, UIPickerViewDataSource, UIPickerViewD
         
         
     }
-    @IBAction func DoneButton(sender: UIButton) {
-        
-        //How to make datepicker disappear???
-        //dobTextField.resignFirstResponder()
-        
-    }
-    
+       
 }

@@ -1,5 +1,5 @@
 //
-//  EmailTableViewCell.swift
+//  AddressTableViewCell.swift
 //  ProfileProject
 //
 //  Created by Mohd Farhan Khan on 1/28/18.
@@ -7,37 +7,26 @@
 //
 
 import UIKit
-protocol EmailSharingDelegate: class {
-    // The following command (ie, method) must be obeyed by any
-    // underling (ie, delegate) of the older sibling.
-    func getNewEmail(newEmail: String)
+protocol AddressSharingDelegate: class {
+    func getNewAddress(newAddress: String)
 }
-class EmailTableViewCell: UITableViewCell, UITextFieldDelegate {
-     var delegate : EmailSharingDelegate?
-    @IBOutlet weak var emailTextField: UITextField!
-    private var oldEmail : String?
+class AddressTableViewCell: UITableViewCell, UITextFieldDelegate {
+    var delegate : AddressSharingDelegate?
+    @IBOutlet weak var addressTextField: UITextField!
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
-        emailTextField.delegate = self
+        addressTextField.delegate = self
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
     }
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-        if (textField.text?.isValidEmail())!{
-            oldEmail = textField.text
-        }
         return true
     }
-    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        emailTextField.resignFirstResponder()
-    }
-    
+        addressTextField.resignFirstResponder()
+    }    
     func textFieldDidReturn(textField: UITextField!) {
         textField.resignFirstResponder()
     }
@@ -53,16 +42,7 @@ class EmailTableViewCell: UITableViewCell, UITextFieldDelegate {
     }
     func textFieldDidEndEditing(_ textField: UITextField) {
         textField.resignFirstResponder()
-        if (textField.text?.isValidEmail())!{
-            oldEmail = textField.text
-            delegate?.getNewEmail(newEmail: emailTextField.text!)
-        }
-        else{
-            emailTextField.text = oldEmail
-        }
-        print(emailTextField.text as Any)
-       
-        
+        print(addressTextField.text as Any)
+        delegate?.getNewAddress(newAddress: addressTextField.text!)
     }
-    
 }

@@ -8,26 +8,20 @@
 
 import UIKit
 protocol GenderSharingDelegate: class {
-    // The following command (ie, method) must be obeyed by any
-    // underling (ie, delegate) of the older sibling.
     func getNewGender(newGender: String)
     
 }
 class GenderTableViewCell: UITableViewCell {
-    var delegate : GenderSharingDelegate?
-    var gender : String? = "Male"
     
     @IBOutlet weak var femaleButton: DesignableButton!
     @IBOutlet weak var maleButton: DesignableButton!
+    var delegate : GenderSharingDelegate?
+    var gender : String? = "Male"
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
     }
-
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
     }
     @IBAction func setMale(_ sender: Any) {
         gender = "Male"

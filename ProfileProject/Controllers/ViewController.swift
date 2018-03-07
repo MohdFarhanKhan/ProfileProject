@@ -10,7 +10,6 @@ import UIKit
 import MobileCoreServices
 class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource,UIScrollViewDelegate, NameSharingDelegate, AddressSharingDelegate, EmailSharingDelegate, DOBSharingDelegate,PhoneSharingDelegate , GenderSharingDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIPickerViewDelegate,UIPickerViewDataSource{
     
-    
     @IBOutlet weak var photoPickerView: UIPickerView!
     @IBOutlet weak var profileTableView: UITableView!
     @IBOutlet weak var profileImageView: DesignableImageView!
@@ -26,90 +25,82 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     var coverImage :UIImage?
     var isProfileImageChange : Bool?
     var imageSourceOptionsAray = ["From PhotoLibrary", "from Camera"]
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         photoPickerView.isHidden = true
-        // Do any additional setup after loading the view, typically from a nib.
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+        
     }
     func numberOfSections(in tableView: UITableView) -> Int {
-        
         return 1
     }
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 6
-        
     }
-    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
         var cell:UITableViewCell?
         switch indexPath.row {
-        case  0 :
+          case  0 :
                  let nameCell = tableView.dequeueReusableCell(withIdentifier: "NameTableViewCell", for: indexPath) as! NameTableViewCell
                  nameCell.delegate = self
                  nameCell.nameTextField.text = nameString
                  cell = nameCell
-            
-        case  1 :
-                let addressCell = tableView.dequeueReusableCell(withIdentifier: "AddressTableViewCell", for: indexPath) as! AddressTableViewCell
-                addressCell.delegate = self
-                addressCell.addressTextField.text = addressString
-                cell = addressCell
-        case  2 :
-            let emailCell = tableView.dequeueReusableCell(withIdentifier: "EmailTableViewCell", for: indexPath) as! EmailTableViewCell
-               emailCell.delegate = self
-            if let email = emailString, (email.isValidEmail()){
-               emailCell.emailTextField.text = email
-            }
+          case  1 :
+                 let addressCell = tableView.dequeueReusableCell(withIdentifier: "AddressTableViewCell", for: indexPath) as! AddressTableViewCell
+                 addressCell.delegate = self
+                 addressCell.addressTextField.text = addressString
+                 cell = addressCell
+          case  2 :
+                let emailCell = tableView.dequeueReusableCell(withIdentifier: "EmailTableViewCell", for: indexPath) as! EmailTableViewCell
+                emailCell.delegate = self
+                if let email = emailString, (email.isValidEmail()){
+                    emailCell.emailTextField.text = email
+                }
                 cell = emailCell
-        case  3 :
-            let dobCell = tableView.dequeueReusableCell(withIdentifier: "DOBTableViewCell", for: indexPath) as! DOBTableViewCell
-            dobCell.delegate = self
-            if let date = dobDate{
-                let timeFormatter = DateFormatter()
-                timeFormatter.dateStyle = .medium
-                dobCell.dobTextField.text = timeFormatter.string(from: date)
-            }
-                cell = dobCell
-        case  4 :
-            let phoneCell = tableView.dequeueReusableCell(withIdentifier: "PhoneTableViewCell", for: indexPath) as! PhoneTableViewCell
-            phoneCell.delegate = self
+          case  3 :
+               let dobCell = tableView.dequeueReusableCell(withIdentifier: "DOBTableViewCell", for: indexPath) as! DOBTableViewCell
+               dobCell.delegate = self
+               if let date = dobDate{
+                    let timeFormatter = DateFormatter()
+                    timeFormatter.dateStyle = .medium
+                    dobCell.dobTextField.text = timeFormatter.string(from: date)
+               }
+               cell = dobCell
+          case  4 :
+               let phoneCell = tableView.dequeueReusableCell(withIdentifier: "PhoneTableViewCell", for: indexPath) as! PhoneTableViewCell
+               phoneCell.delegate = self
                let appDelegate = UIApplication.shared.delegate as! AppDelegate
-            if let code = countryCode{
-                phoneCell.countryCodeTextField.text = code
-                phoneCell.countryCode = code
-            }
-            else if appDelegate.countryCode.count>0{
-                phoneCell.countryCodeTextField.text = appDelegate.countryCode
-                phoneCell.countryCode = appDelegate.countryCode
-            }
-            if let number = phoneNumber{
-                phoneCell.phoneTextField.text = number
-            }
-            
+               if let code = countryCode{
+                    phoneCell.countryCodeTextField.text = code
+                    phoneCell.countryCode = code
+               }
+               else if appDelegate.countryCode.count>0{
+                    phoneCell.countryCodeTextField.text = appDelegate.countryCode
+                    phoneCell.countryCode = appDelegate.countryCode
+               }
+               if let number = phoneNumber{
+                    phoneCell.phoneTextField.text = number
+               }
                cell = phoneCell
-        case  5 :
-            let genderCell = tableView.dequeueReusableCell(withIdentifier: "GenderTableViewCell", for: indexPath) as! GenderTableViewCell
-            genderCell.delegate = self
-            genderCell.gender = gender
-            if gender == "Male"{
-                genderCell.maleButton.backgroundColor = UIColor.green
-                genderCell.femaleButton.backgroundColor = UIColor.white
-            }
-            else{
-                genderCell.maleButton.backgroundColor = UIColor.white
-                genderCell.femaleButton.backgroundColor = UIColor.green
-            }
-               cell = genderCell
-            
-        default:
-            print("Wrong value")
+          case  5 :
+              let genderCell = tableView.dequeueReusableCell(withIdentifier: "GenderTableViewCell", for: indexPath) as! GenderTableViewCell
+              genderCell.delegate = self
+              genderCell.gender = gender
+              if gender == "Male"{
+                   genderCell.maleButton.backgroundColor = UIColor.green
+                   genderCell.femaleButton.backgroundColor = UIColor.white
+              }
+              else{
+                   genderCell.maleButton.backgroundColor = UIColor.white
+                   genderCell.femaleButton.backgroundColor = UIColor.green
+              }
+              cell = genderCell
+          default:
+              print("Wrong value")
         }
         
         return cell!
